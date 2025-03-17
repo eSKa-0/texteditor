@@ -104,6 +104,11 @@ class SimpleNeovimClone:
                     self.running = False
                 self.mode = 'NORMAL'
                 self.command = ""
+            elif key == 127 or key == curses.KEY_BACKSPACE:
+                if self.command.len() > 1:
+                    self.command = self.command[:-1]
+                else:
+                    pass
             else:
                 self.command += chr(key)
         elif self.mode == 'SEARCH':
