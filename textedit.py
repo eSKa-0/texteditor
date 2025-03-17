@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import curses
 
-class SimpleNeovimClone:
+class Editor:
     def __init__(self, stdscr):
         self.stdscr = stdscr
         self.text = [""]
@@ -47,6 +47,19 @@ class SimpleNeovimClone:
         self.stdscr.addstr(height - 1, 0, status_bar[:width - 1], curses.A_REVERSE)
         self.stdscr.move(cursor_y, cursor_x)
         self.stdscr.refresh()
+
+    def open_file(self, filename):
+        try:
+            with open(filename, 'r') as f:
+                self.text = f.read().splitlines() or [""]
+            self.filename = filename
+            self.cursor_x = 0
+            self.cursor_y = 0
+            self.scroll_x = 0
+            self.scroll_y = 0
+        except FileNotFoundError:
+            self.text = [f"Error: File '{filename}' not found."]
+            self.filename = 'newfile.txt'
 
     def process_input(self, key):
         height, width = self.stdscr.getmaxyx()
@@ -99,7 +112,10 @@ class SimpleNeovimClone:
                 self.mode = 'NORMAL'
                 self.command = ""
             elif key == 10:  # Enter key
-                if self.command == ':w':
+                if self.command.startswith(':o '):  # Open file command
+                    filename = self.command[3:].strip()
+                    self.open_file(filename)
+                elif self.command == ':w':
                     self.save_file()
                 elif self.command == ':q':
                     self.running = False
@@ -158,4 +174,4 @@ class SimpleNeovimClone:
             self.process_input(key)
 
 if __name__ == "__main__":
-    curses.wrapper(SimpleNeovimClone)
+    curses.wrapper(Editor)
