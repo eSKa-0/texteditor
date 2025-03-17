@@ -117,6 +117,9 @@ class SimpleNeovimClone:
             elif key == 10:  # Enter key
                 self.perform_search()
                 self.mode = 'NORMAL'
+            elif key == 127 or key == curses.KEY_BACKSPACE:
+                if self.search_query.len() > 0:
+                    self.search_query = self.search_query[:-1]
             else:
                 self.search_query += chr(key)
         
