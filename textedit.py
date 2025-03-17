@@ -31,10 +31,10 @@ class SimpleNeovimClone:
         for idx, line in enumerate(self.text[self.scroll_y:self.scroll_y + height - 2]):
             line_number = f"{self.scroll_y + idx + 1:>{line_number_width}} "
             self.stdscr.addstr(idx, 0, line_number, curses.A_DIM)
-            self.stdscr.addstr(idx, line_number_width, line[self.scroll_x:self.scroll_x + width - line_number_width - 1])
+            self.stdscr.addstr(idx, line_number_width + 1, line[self.scroll_x:self.scroll_x + width - line_number_width - 1])
         
         cursor_y = min(self.cursor_y - self.scroll_y, height - 2)
-        cursor_x = min(self.cursor_x - self.scroll_x + line_number_width, width - 2)
+        cursor_x = min(self.cursor_x - self.scroll_x + line_number_width, width - 2) + 1
         
         if self.mode == 'COMMAND':
             status_bar = f":{self.command[1:]}"
