@@ -105,7 +105,7 @@ class SimpleNeovimClone:
                 self.mode = 'NORMAL'
                 self.command = ""
             elif key == 127 or key == curses.KEY_BACKSPACE:
-                if self.command.len() > 1:
+                if len(self.command) > 1:
                     self.command = self.command[:-1]
                 else:
                     pass
@@ -118,7 +118,7 @@ class SimpleNeovimClone:
                 self.perform_search()
                 self.mode = 'NORMAL'
             elif key == 127 or key == curses.KEY_BACKSPACE:
-                if self.search_query.len() > 0:
+                if len(self.search_query) > 0:
                     self.search_query = self.search_query[:-1]
             else:
                 self.search_query += chr(key)
