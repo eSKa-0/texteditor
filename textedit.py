@@ -89,9 +89,11 @@ class Editor:
                 self.mode = 'NORMAL'
             elif key == curses.KEY_BACKSPACE or key == 127:
                 if self.cursor_x > 0:
-                    self.text[self.cursor_y] = self.text[self.cursor_y][:self.cursor_x-1] + self.text[self.cursor_y][self.cursor_x:]
+                    # Remove the character before the cursor
+                    self.text[self.cursor_y] = self.text[self.cursor_y][:self.cursor_x - 1] + self.text[self.cursor_y][self.cursor_x:]
                     self.cursor_x -= 1
                 elif self.cursor_y > 0:
+                    # Merge the current line with the previous line
                     prev_line_length = len(self.text[self.cursor_y - 1])
                     self.text[self.cursor_y - 1] += self.text[self.cursor_y]
                     del self.text[self.cursor_y]
